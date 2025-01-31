@@ -1,0 +1,96 @@
+/* Style général du formulaire */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+/* Conteneur principal */
+.container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Titre principal */
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Section titre (pour chaque partie du formulaire) */
+h4 {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #444;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 5px;
+}
+
+/* Style des champs de formulaire */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    font-size: 1em;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    margin-top: 5px;
+}
+
+input:focus, textarea:focus {
+    border-color: #0056b3;
+    outline: none;
+}
+
+/* Style du bouton */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 1em;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Espacement du formulaire */
+.mt-5 {
+    margin-top: 3rem;
+}
+
+/* Styles supplémentaires pour les messages d'erreur ou de succès */
+.alert {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+}

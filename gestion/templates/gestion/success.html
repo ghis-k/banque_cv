@@ -1,0 +1,786 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    /* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* CV container */
+.cv-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+  padding-left: 270px; /* Space for the always-visible sidebar */
+}
+
+/* CV actions */
+.cv-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .cv-actions {
+    flex-direction: column;
+  }
+}
+
+.cv-actions button {
+  margin: 5px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cv-actions button:hover {
+  background-color: #0f766e;
+}
+
+/* CV content */
+.cv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Template sidebar */
+.template-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  background-color: #0f766e;
+  color: #fff;
+  padding: 1rem;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.template-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.template-item,
+.Photo-item {
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 100%;
+}
+
+.template-item:hover,
+.Photo-item:hover {
+  transform: scale(1.05);
+  
+}
+
+.template-item img,
+.Photo-item img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.template-item h3,
+.Photo-item h3,
+.template-item h2,
+.Photo-item h2 {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+/* CV Templates */
+/* Classic CV */
+.classic-cv {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.classic-cv .header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.classic-cv .profile-img {
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.classic-cv .main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.classic-cv .info-personnelle,
+.classic-cv .competences,
+.classic-cv .langues,
+.classic-cv .loisirs {
+  grid-column: 1;
+}
+
+.classic-cv .experience,
+.classic-cv .formation {
+  grid-column: 2;
+}
+
+.classic-cv h1,
+.classic-cv h2,
+.classic-cv h3,
+.classic-cv h4 {
+  color: #333;
+}
+
+.classic-cv ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.classic-cv li {
+  margin-bottom: 5px;
+}
+
+/* Modern CV */
+.modern-cv {
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.modern-cv .sidebar {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 40px;
+  width: 30%;
+}
+
+.modern-cv .profile-img {
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.modern-cv .main {
+  padding: 40px;
+  width: 70%;
+}
+
+.modern-cv h1,
+.modern-cv h2,
+.modern-cv h3,
+.modern-cv h4 {
+  margin-bottom: 15px;
+}
+
+.modern-cv h1 {
+  font-size: 2.5em;
+}
+
+.modern-cv h2 {
+  font-size: 1.5em;
+  color: #3498db;
+}
+
+.modern-cv h3 {
+  font-size: 1.2em;
+  color: #2980b9;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+}
+
+.modern-cv .info-personnelle,
+.modern-cv .competences,
+.modern-cv .langues {
+  margin-bottom: 30px;
+}
+
+.modern-cv .experience-item,
+.modern-cv .formation-item {
+  margin-bottom: 20px;
+}
+
+.modern-cv .entreprise,
+.modern-cv .periode,
+.modern-cv .annee {
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+.modern-cv ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.modern-cv li {
+  margin-bottom: 5px;
+}
+
+/* Creative CV */
+.creative-cv {
+  font-family: "Montserrat", sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #f0f0f0;
+}
+
+.creative-cv .header {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.creative-cv .header-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.creative-cv .profile-img {
+  border-radius: 50%;
+  border: 5px solid white;
+}
+
+.creative-cv .main {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.creative-cv h1,
+.creative-cv h2,
+.creative-cv h3,
+.creative-cv h4 {
+  margin-bottom: 15px;
+}
+
+.creative-cv h1 {
+  font-size: 2.5em;
+}
+
+.creative-cv h2 {
+  font-size: 1.5em;
+  color: #4ecdc4;
+}
+
+.creative-cv h3 {
+  font-size: 1.2em;
+  color: #45b7af;
+  border-bottom: 2px solid #45b7af;
+  padding-bottom: 5px;
+}
+
+.creative-cv .info-personnelle,
+.creative-cv .competences {
+  grid-column: 1 / -1;
+}
+
+.creative-cv .competences-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.creative-cv .competence-item {
+  background-color: #4ecdc4;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.creative-cv .timeline {
+  position: relative;
+}
+
+.creative-cv .timeline-item {
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.creative-cv .timeline-item::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: #45b7af;
+  left: -20px;
+  top: 0;
+}
+
+.creative-cv .formation-list {
+  display: grid;
+  gap: 20px;
+}
+
+.creative-cv .formation-item {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.creative-cv .langues-loisirs {
+  display: flex;
+  justify-content: space-between;
+  grid-column: 1 / -1;
+}
+
+.creative-cv .langues,
+.creative-cv .loisirs {
+  width: 48%;
+}
+
+.creative-cv ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.creative-cv li {
+  margin-bottom: 5px;
+}
+
+/* Minimalist CV */
+.minimalist-cv {
+  font-family: "Helvetica", "Arial", sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: white;
+  color: #333;
+}
+
+.minimalist-cv .header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.minimalist-cv .profile-img {
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.minimalist-cv h1,
+.minimalist-cv h2,
+.minimalist-cv h3,
+.minimalist-cv h4 {
+  margin-bottom: 10px;
+}
+
+.minimalist-cv h1 {
+  font-size: 2em;
+  font-weight: normal;
+}
+
+.minimalist-cv h2 {
+  font-size: 1.2em;
+  color: #666;
+  font-weight: normal;
+}
+
+.minimalist-cv h3 {
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.minimalist-cv .info-personnelle {
+  margin-bottom: 20px;
+}
+
+.minimalist-cv .competences,
+.minimalist-cv .experience,
+.minimalist-cv .formation,
+.minimalist-cv .langues-loisirs {
+  margin-bottom: 30px;
+}
+
+.minimalist-cv .experience-item,
+.minimalist-cv .formation-item {
+  margin-bottom: 20px;
+}
+
+.minimalist-cv .langues-loisirs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.minimalist-cv .langues-loisirs > div {
+  width: 48%;
+}
+
+.minimalist-cv ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.minimalist-cv li {
+  margin-bottom: 5px;
+}
+
+/* Professional CV */
+.professional-cv {
+  font-family: "Georgia", serif;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.professional-cv .header {
+  background-color: #1c2833;
+  color: white;
+  padding: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.professional-cv .header-left {
+  flex: 1;
+}
+
+.professional-cv .profile-img {
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.professional-cv .main {
+  display: flex;
+}
+
+.professional-cv .sidebar {
+  width: 30%;
+  background-color: #f4f6f7;
+  padding: 40px;
+}
+
+.professional-cv .content {
+  width: 70%;
+  padding: 40px;
+}
+
+.professional-cv h1,
+.professional-cv h2,
+.professional-cv h3,
+.professional-cv h4 {
+  margin-bottom: 15px;
+}
+
+.professional-cv h1 {
+  font-size: 2.5em;
+}
+
+.professional-cv h2 {
+  font-size: 1.5em;
+  color: #3498db;
+}
+
+.professional-cv h3 {
+  font-size: 1.2em;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+}
+
+.professional-cv .info-personnelle,
+.professional-cv .competences,
+.professional-cv .langues,
+.professional-cv .loisirs {
+  margin-bottom: 30px;
+}
+
+.professional-cv .experience-item,
+.professional-cv .formation-item {
+  margin-bottom: 20px;
+}
+
+.professional-cv .entreprise,
+.professional-cv .periode,
+.professional-cv .annee {
+  font-style: italic;
+  color: #7f8c8d;
+}
+
+.professional-cv ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.professional-cv li {
+  margin-bottom: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cv-container {
+    padding-left: 20px;
+  }
+
+  .template-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .template-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .template-item,
+  .Photo-item {
+    width: calc(50% - 10px);
+  }
+
+  .modern-cv,
+  .professional-cv .main {
+    flex-direction: column;
+  }
+
+  .modern-cv .sidebar,
+  .modern-cv .main,
+  .professional-cv .sidebar,
+  .professional-cv .content {
+    width: 100%;
+  }
+}
+    
+  </style>
+</head>
+<body>
+  <div class="cv-container">
+    <!-- Ajoutez ces boutons après la div .cv-container -->
+    <div class="cv-actions">
+      <button id="print-cv" class="btn">Imprimer la CV</button>
+      <button id="download-cv" class="btn">Télécharger la CV</button>
+      <button id="download-cv" class="btn">Envoyer le CV par Email</button>
+    </div>
+    <div class="cv"></div>
+    <div class="template-sidebar">
+      <h2>Modèles de CV</h2>
+      <div class="template-list">
+        <div class="template-item">
+          <img src="/media/photos/capture2.jpg" alt="modele-classique" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h3>Classique</h3>
+        </div>
+        <div class="Photo-item">
+          <img src="/media/photos/capture1.jpg" alt="modele-moderne" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h3>Moderne</h3>
+        </div>
+        <div class="template-item">
+          <img src="/media/photos/capture5.jpg" alt="modele-creatif" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h3>Créatif</h3>
+        </div>
+        <div class="Photo-item">
+          <img src="/media/photos/capture3.jpg" alt="modele-minimaliste" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h3>Minimaliste</h3>
+        </div>
+        <div class="template-item">
+          <img src="/media/photos/capture4.jpg" alt="modele-professionnel" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h3>Professionnel</h3>
+        </div>
+        <div class="template-item">
+          <img src="/media/photos/capture8.jpg" alt="modele-infographique" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h2>Infographique</h2>
+        </div>
+        <div class="template-item">
+          <img src="/media/photos/capture9.jpg" alt="modele-accademique" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h2>Accademique</h2qs>
+        </div>
+
+        <div class="template-item">
+          <img src="/media/photos/capture6.jpg" alt="modele-thematique" width="100%" height="150" object-fit="cover" border-radius="10px">
+          <h3>Thematique</h3>
+        </div>
+      </div>
+    </div>
+    <div class="template-trigger"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/dist/dom-to-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.68/build/pdfmake.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.1.68/build/vfs_fonts.js"></script>  
+  <script>
+    const cvContainer = document.querySelector('.cv-container');
+    const templateSidebar = document.querySelector('.template-sidebar');
+    const templateTrigger = document.querySelector('.template-trigger');
+
+    const templates = [
+      { name: 'Classique', value: 'modele-classique' },
+      { name: 'Moderne', value: 'modele-moderne' },
+      { name: 'Créatif', value: 'modele-creatif' },
+      { name: 'Minimaliste', value: 'modele-minimaliste' },
+      { name: 'Accademique', value: 'modele-accademique' },
+      { name: 'Infographique', value: 'modele-infographique' },
+      { name: 'Professionnel', value: 'modele-professionnel' },
+      { name: 'Thematique', value: 'modele-thematique' },
+    ];
+
+    let currentTemplate = 'modele-classique';
+
+    function loadTemplate(url) {
+      return fetch(url)
+        .then(response => response.text())
+        .then(html => html);
+    }
+
+    function renderCV(template) {
+      const cv = document.querySelector('.cv');
+      cv.innerHTML = template;
+    }
+    const url = window.location.pathname;
+    const id = url.split('/')[2]; // Récupère l'ID de l'URL
+
+    // Transmettre l'ID à la fonction loadTemplate
+    console.log(id);
+    function switchTemplate(templateName) {
+      const url = `/cv${templateName}/${id}`;
+      loadTemplate(url)
+        .then(template => renderCV(template))
+        .catch(error => console.error(error));
+    }
+
+    templateTrigger.addEventListener('mouseover', () => {
+      templateSidebar.classList.add('open');
+    });
+
+    templateTrigger.addEventListener('mouseout', () => {
+      templateSidebar.classList.remove('open');
+    });
+
+    templateSidebar.addEventListener('mouseover', () => {
+      templateSidebar.classList.add('open');
+    });
+
+    templateSidebar.addEventListener('mouseout', () => {
+      templateSidebar.classList.remove('open');
+    });
+
+    templateSidebar.addEventListener('click', (e) => {
+      if (e.target.tagName === 'H2' || e.target.tagName === 'IMG') {
+        const templateName = e.target.tagName === 'H2' ? e.target.textContent.toLowerCase() : e.target.alt.toLowerCase();
+        switchTemplate(templateName);
+      }
+    });
+
+    switchTemplate('modele-classique');
+
+    const printCVButton = document.getElementById('print-cv');
+    const downloadCVButton = document.getElementById('download-cv');
+    const sendCVButton = document.getElementById('send-cv');
+
+    printCVButton.addEventListener('click', () => {
+      const cvActions = document.querySelector('.cv-actions');
+      const templateSidebar = document.querySelector('.template-sidebar');
+      cvActions.style.display = 'none';
+      templateSidebar.style.display = 'none';
+      window.print();
+      cvActions.style.display = 'block';
+      templateSidebar.style.display = 'block';
+    });
+
+    downloadCVButton.addEventListener('click', function() {
+      const cv = document.querySelector('.cv');
+      domtoimage.toJpeg(cv, { quality: 0.95 })
+        .then(function(dataUrl) {
+          const pdfDoc = pdfMake.createPdf({
+            content: [
+              {
+                image: dataUrl,
+                width: 500,
+              },
+            ],
+            pageSize: 'A4',
+            pageMargins: [0, 0, 0, 0],
+          });
+          pdfDoc.download('cv.pdf');
+        });
+    });
+
+    sendCVButton.addEventListener('click', () => {
+      const cv = document.querySelector('.cv');
+  if (cv) {
+    domtoimage.toJpeg(cv, { quality: 0.95 })
+      .then(function(dataUrl) {
+        const pdfDoc = pdfMake.createPdf({
+          content: [
+            {
+              image: dataUrl,
+              width: 500,
+            },
+          ],
+          pageSize: 'A4',
+          pageMargins: [0, 0, 0, 0],
+        });
+        pdfDoc.getBlob(function(blob) {
+          const formData = new FormData();
+          formData.append('fichier', blob);
+          $.ajax({
+            type: 'POST',
+            url: '/envoyer_fichier_par_mail/', // URL du serveur pour envoyer le CV
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+              console.log('CV envoyé avec succès !');
+            },
+            error: function(xhr, status, error) {
+              console.log('Erreur lors de l\'envoi du CV : ' + error);
+            }
+          });
+        });
+      })
+      .catch(function(error) {
+        console.log('Erreur lors de la conversion en image : ' + error);
+      });
+  } else {
+    console.log('Élément non trouvé');
+  }
+    });
+  </script>
+
+  </body>
+</html>

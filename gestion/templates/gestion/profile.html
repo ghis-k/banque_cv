@@ -1,0 +1,10 @@
+<h1>Profil de {{ etudiant.prenom }} {{ etudiant.nom }}</h1>
+
+<h2>Mes CV</h2>
+<ul>
+    {% for cv in cv_list %}
+        <li><a href="{% url 'view_cv' cv.id %}">{{ cv.titre }}</a></li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'create_cv' %}">Créer un nouveau CV</a>

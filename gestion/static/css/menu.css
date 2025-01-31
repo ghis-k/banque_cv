@@ -1,0 +1,215 @@
+.voirPersonnelAll{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .voirPersonnelAll-partie1, .voirPersonnelAll-partie3{
+    background: black;
+    opacity: .1;
+} */
+
+.voirPersonnelAll-partie1 i, .voirPersonnelAll-partie3 i{
+    font-size: 40px;
+    color: blue;
+    opacity: 1;
+}
+
+.voirPersonnelAll-partie2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    padding: 11px 0;
+    background-color: rgba(000, 000, 000, .1);
+    border-radius: 10px;
+}
+
+.voirPersonnelAll-partie2-recherche{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.voirPersonnelAll-partie2-recherche .voirPersonnelAll-partie2-rechercheParPoste select{
+    width: 170px;
+    padding: 9px;
+    border: 0px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px
+}
+
+.voirPersonnelAll-partie2-recherche .voirPersonnelAll-partie2-rechercheParNom input{
+    margin: 0 10px 0 10px;
+    width: 160px;
+    padding: 9px;
+    border: 0px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px
+
+}
+
+.voirPersonnelAll-partie2-rechercheParNom input:focus-visible , .voirPersonnelAll-partie2-rechercheParPoste select:focus-visible{
+    outline-color: white;
+    outline-width: 1px;
+}
+
+.voirPersonnelAll-partie2-cardAll{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    max-height: 370px;
+    overflow-y: auto;
+}
+
+.voirPersonnelAll-partie2-card{
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 3px 1px #c1c1c1;
+    width: 250px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    margin: 5px;
+}
+
+/* .voirPersonnelAll-partie2-cardAll .voirPersonnelAll-partie2-card:first-child{
+    margin-left: 10px;
+} */
+
+.voirPersonnelAll-partie2-card-p1{
+    background-color: #7575ff;
+    border-radius: 20px;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute;
+    top: 0;
+    left: 0; */
+}
+
+.voirPersonnelAll-partie2-card-p1-A{
+    background-color: white;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    /* width: 50%;
+    height: 85%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.voirPersonnelAll-partie2-card-p1-B{
+    background-color: #7575ff;
+    border-radius: 50%;
+    width: 95%;
+    height: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.voirPersonnelAll-partie2-card-p1-B img{
+    border-radius: 50%;
+    width: 95%;
+    height: 95%;
+}
+
+.voirPersonnelAll-partie2-card-p2{
+    height: 50%;
+    /* background-color: black; */
+    border-top-right-radius: 20px;
+
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien{
+    text-align: center;
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien p{
+    margin-bottom: 8px;
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien i{
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien .bi-facebook , .voirPersonnelAll-partie2-card-p2-nomLien .bi-linkedin , .voirPersonnelAll-partie2-card-p2-nomLien .bi-twitter{
+    color: blue;
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien .bi-telegram{
+    color: #6e6eff
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien .bi-whatsapp{
+    color: green
+}
+
+.voirPersonnelAll-partie2-card-p2-nomLien .bi-youtube{
+    color: red
+}
+
+.voirPersonnelAll-partie2-card-p2-contenue p{
+    text-align: center;
+}
+
+.voirPersonnelAll-partie2-card-p2-contenue p span:first-child{
+    text-decoration: underline;
+}
+
+.voirPersonnelAll-partie2-card-p2-button{
+    text-align: center;
+}
+
+.voirPersonnelAll-partie2-card-p2-button button{
+    padding: 6px 30px;
+    background: #7575ff;
+    border: 1px solid #7575ff;
+    border-radius: 7px;
+    color: white;
+    cursor: pointer;
+}
+
+.voirPersonnelAll-partie2-Point i{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: blue;
+    border-radius: 50%;
+    opacity: .5;
+}
+
+.voirPersonnelAll-partie2-Point i:first-child{
+    opacity: 1;
+}
+
+@media only screen and (max-width: 430px) {
+    .voirPersonnelAll-partie1 , .voirPersonnelAll-partie3{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 375px) {
+    .voirPersonnelAll-partie2-recherche{
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .voirPersonnelAll-partie2-recherche .voirPersonnelAll-partie2-rechercheParNom input{
+        margin: 10px 0 0 0;
+    }
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Professionnel - Design Moderne et Épuré</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .title {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .main {
+            display: flex;
+            padding: 20px;
+        }
+
+        .left-column {
+            flex: 1;
+            padding-right: 20px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .right-column {
+            flex: 2;
+            padding-left: 20px;
+        }
+
+        .photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .date {
+            font-style: italic;
+            color: #7f8c8d;
+        }
+
+        .download-btn, .edit-btn {
+            background-color: #2c3e50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover, .edit-btn:hover {
+            background-color: #34495e;
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .left-column, .right-column {
+                padding: 0;
+                border: none;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div id="cv-content" class="container">
+        <div class="header">
+            <h1>{{ cv.etudiant.nom }} {{ cv.etudiant.prenom }}</h1>
+            <p class="title">{{ cv.titre }}</p>
+        </div>
+        <div class="main">
+            <div class="left-column">
+                <img src="{{ cv.etudiant.photo.url }}" alt="Photo de profil" class="photo">
+                <div class="section">
+                    <h2>Informations</h2>
+                    <ul>
+                        <li><strong>Email :</strong> {{ etudiant.email }}</li>
+                        <li><strong>Contact :</strong> {{ etudiant.contact }}</li>
+                        <li><strong>Nationalité :</strong> {{ etudiant.nationalite }}</li>
+                        <li><strong>Statut matrimonial :</strong> {{ etudiant.situation_matrimoniale }}</li>
+                        <li><strong>Mobile :</strong> {{ etudiant.mobile }}</li>
+                       
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Langues</h2>
+                    <ul>
+                        {% for langue in langues %}
+                            <li>{{ langue.libelle }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Centres d'intérêt</h2>
+                    <ul>
+                        {% for loisir in loisirs %}
+                            <li>{{ loisir.libelle }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="section">
+                    <h2>Formation</h2>
+                    <ul>
+                        {% for formation in formations %}
+                            <li>
+                                <strong>{{ formation.diplomes }}</strong> - {{ formation.etablissement }} 
+                                <span class="date">({{ formation.annee }}, {{ formation.localite }})</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Compétences</h2>
+                    <ul>
+                        {% for competence in competences %}
+                            <li><strong>{{ competence.titre }}</strong> - {{ competence.outils }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Expériences professionnelles</h2>
+                    <ul>
+                        {% for experience in experiences %}
+                            <li>
+                                <strong>{{ experience.titre }}</strong> chez {{ experience.entreprise }} 
+                                <span class="date">({{ experience.date_debut }} - {{ experience.date_fin }})</span>
+                                <p>{{ experience.taches }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="section">
+                    <h2>Projets</h2>
+                    <ul>
+                        {% for projet in projets %}
+                            <li>
+                                <strong>{{ projet.titre }}</strong>
+                                <p>{{ projet.description }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

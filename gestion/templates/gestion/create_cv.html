@@ -1,0 +1,407 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de CV - DabilaPro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0f766e;
+            --secondary-color: #0d9488;
+            --text-color: #333;
+            --background-color: #f0fdfa;
+            --white: #ffffff;
+            --success-color: #059669;
+            --danger-color: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: #ffa500;
+        }
+
+        .nav-links svg {
+            margin-right: 5px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(15, 118, 110, 0.1);
+        }
+
+        h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h2::after, h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(15, 118, 110, 0.1);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #047857;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
+        button i {
+            margin-right: 8px;
+        }
+
+        .section-container {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">GenerateurCV</a>
+                <div class="nav-links">
+                    <a href="{% url 'list_cv_by_etudiant' %}">Mes CV</a>
+
+                    <a href="{% url 'modifier_etudiant' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Compte
+                    </a>
+                    <a href="{% url 'list_cv' %}">Accueil</a>
+                    <a href="{% url 'deconnexion' %}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Se déconnecter
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Informations du CV</h2>
+            <div class="form-group">
+                <label for="titre">Titre :</label>
+                <input type="text" id="titre" name="titre" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description :</label>
+                <textarea id="description" name="description" required rows="4"></textarea>
+            </div>
+
+            <div class="section-container">
+                <h3>Formations</h3>
+                <div id="formations-container"></div>
+                <button type="button" onclick="ajouterFormation()" class="btn-success">
+                    <i class="fas fa-plus"></i> Ajouter une Formation
+                </button>
+            </div>
+
+            <div class="section-container">
+                <h3>Expériences</h3>
+                <div id="experiences-container"></div>
+                <button type="button" onclick="ajouterChamp('experiences')" class="btn-success">
+                    <i class="fas fa-plus"></i> Ajouter une Expérience
+                </button>
+            </div>
+
+            <div class="section-container">
+                <h3> Compétences</h3>
+                <div id="competences-container"></div>
+                <button type="button" onclick="ajouterChamp('competences')" class="btn-success">
+                    <i class="fas fa-plus"></i> Ajouter une Compétence
+                </button>
+            </div>
+
+            <div class="section-container">
+                <h3> Langues</h3>
+                <div id="langues-container"></div>
+                <button type="button" onclick="ajouterChamp('langues')" class="btn-success">
+                    <i class="fas fa-plus"></i> Ajouter une Langue
+                </button>
+            </div>
+
+            <div class="section-container">
+                <h3> Loisirs</h3>
+                <div id="loisirs-container"></div>
+                <button type="button" onclick="ajouterChamp('loisirs')" class="btn-success">
+                    <i class="fas fa-plus"></i> Ajouter un Loisir
+                </button>
+            </div>
+
+            <div class="section-container">
+                <h3>Projets</h3>
+                <div id="projets-container"></div>
+                <button type="button" onclick="ajouterChamp('projets')" class="btn-success">
+                    <i class="fas fa-plus"></i> Ajouter un Projet
+                </button>
+            </div>
+
+            <button type="submit" class="btn-primary mt-4">
+                <i class="fas fa-paper-plane"></i> Soumettre
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function ajouterFormation() {
+            const container = document.getElementById("formations-container");
+            const newFormation = document.createElement("div");
+            newFormation.classList.add("form-group");
+            newFormation.innerHTML = `
+                <label for="diplomes"> Diplôme :</label>
+                <input type="text" name="diplomes[]" required>
+                <label for="etablissement"> Établissement :</label>
+                <input type="text" name="etablissement[]" required>
+                <label for="date_debut"> Date Début :</label>
+                <input type="date" name="date_debut[]" required>
+                <label for="date_fin">Date Fin :</label>
+                <input type="date" name="date_fin[]" required>
+                <label for="localite"> Localité :</label>
+                <input type="text" name="localite[]" required>
+                <button type="button" onclick="supprimerChamp(this)" class="btn-danger">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
+            `;
+            container.appendChild(newFormation);
+        }
+
+        function ajouterChamp(section) {
+            const container = document.getElementById(`${section}-container`);
+            const newChamp = document.createElement("div");
+            newChamp.classList.add("form-group");
+
+            if (section === "experiences") {
+                newChamp.innerHTML = `
+                    <label for="titre"><i class="fas fa-briefcase"></i> Titre :</label>
+                    <input type="text" name="titre_experience[]" required>
+                    <label for="entreprise"><i class="fas fa-building"></i> Entreprise :</label>
+                    <input type="text" name="entreprise[]" required>
+                    <label for="taches"><i class="fas fa-tasks"></i> Tâches :</label>
+                    <textarea name="taches[]" required></textarea>
+                    <label for="date_debut"><i class="fas fa-calendar-alt"></i> Date Début :</label>
+                    <input type="date" name="date_debut[]" required>
+                    <label for="date_fin"><i class="fas fa-calendar-check"></i> Date Fin :</label>
+                    <input type="date" name="date_fin[]" required>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn-danger">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                `;
+            } else if (section === "competences") {
+                newChamp.innerHTML = `
+                    <label for="titre_competence"><i class="fas fa-star"></i> Titre :</label>
+                    <input type="text" name="titre_competence[]" required>
+                    <label for="competence_niveau"><i class="fas fa-chart-bar"></i> Niveau (%) :</label>
+                    <input type="number" name="competence_niveau" required min="0" max="100">
+                    <button type="button" onclick="supprimerChamp(this)" class="btn-danger">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                `;
+            } else if (section === "langues") {
+                newChamp.innerHTML = `
+                    <label for="langue"><i class="fas fa-language"></i> Langue :</label>
+                    <input type="text" name="langues[]" required>
+                    <label for="niveau"><i class="fas fa-tachometer-alt"></i> Niveau :</label>
+                    <select id="niveau" name="niveau" required>
+                        <option value="" disabled selected>-- Sélectionner --</option>
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Avancé">Avancé</option>
+                        <option value="Bilingue">Bilingue</option>
+                    </select>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn-danger">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                `;
+            } else if (section === "loisirs") {
+                newChamp.innerHTML = `
+                    <label for="libelle_loisir"><i class="fas fa-heart"></i> Loisir :</label>
+                    <input type="text" name="libelle_loisir[]" required>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn-danger">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                `;
+            } else if (section === "projets") {
+                newChamp.innerHTML = `
+                    <label for="titre_projet"><i class="fas fa-project-diagram"></i> Titre :</label>
+                    <input type="text" name="titre_projet[]" required>
+                    <label for="date_debut"><i class="fas fa-calendar-alt"></i> Date Début :</label>
+                    <input type="date" name="date_debut[]" required>
+                    <label for="date_fin"><i class="fas fa-calendar-check"></i> Date Fin :</label>
+                    <input type="date" name="date_fin[]" required>
+                    <label for="description_projet"><i class="fas fa-align-left"></i> Description :</label>
+                    <textarea name="description_projet[]" required></textarea>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn-danger">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                `;
+            }
+
+            container.appendChild(newChamp);
+        }
+
+        function supprimerChamp(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
+

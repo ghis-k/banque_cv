@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire Étudiant</title>
+    <link rel="stylesheet" href="{% static 'forms.css' %}">
+    <script>
+        // Fonction d'ajout dynamique de champs de formation
+        function ajouterFormation() {
+            const container = document.getElementById("formations-container");
+            const newFormation = document.createElement("div");
+            newFormation.classList.add("form-group");
+            newFormation.innerHTML = `
+                <label for="annee">Année :</label>
+                <input type="number" class="form-control" name="annee[]" required>
+                <label for="diplomes">Diplôme :</label>
+                <input type="text" class="form-control" name="diplomes[]" required>
+                <label for="etablissement">Établissement :</label>
+                <input type="text" class="form-control" name="etablissement[]" required>
+                <label for="localite">Localité :</label>
+                <input type="text" class="form-control" name="localite[]" required>
+                <button type="button" onclick="supprimerChamp(this)" class="btn btn-danger">Supprimer</button>
+            `;
+            container.appendChild(newFormation);
+        }
+
+        // Fonction de suppression de champ dynamique
+        function supprimerChamp(button) {
+            button.parentElement.remove();
+        }
+
+        // Fonction d'ajout dynamique pour les autres sections (expériences, compétences, etc.)
+        function ajouterChamp(section) {
+            const container = document.getElementById(section + "-container");
+            const newChamp = document.createElement("div");
+            newChamp.classList.add("form-group");
+
+            if (section === "experiences") {
+                newChamp.innerHTML = `
+                    <label for="date_debut">Date Début :</label>
+                    <input type="date" class="form-control" name="date_debut[]" required>
+                    <label for="date_fin">Date Fin :</label>
+                    <input type="date" class="form-control" name="date_fin[]" required>
+                    <label for="titre">Titre :</label>
+                    <input type="text" class="form-control" name="titre_experience[]" required>
+                    <label for="entreprise">Entreprise :</label>
+                    <input type="text" class="form-control" name="entreprise[]" required>
+                    <label for="taches">Tâches :</label>
+                    <textarea class="form-control" name="taches[]" required></textarea>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn btn-danger">Supprimer</button>
+                `;
+            } else if (section === "competences") {
+                newChamp.innerHTML = `
+                    <label for="titre_competence">Titre :</label>
+                    <input type="text" class="form-control" name="titre_competence[]" required>
+                    <label for="outils">Outils :</label>
+                    <input type="text" class="form-control" name="outils[]" required>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn btn-danger">Supprimer</button>
+                `;
+            } else if (section === "langues") {
+                newChamp.innerHTML = `
+                    <label for="langues">Langue :</label>
+                    <input type="text" class="form-control" name="langues[]" required>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn btn-danger">Supprimer</button>
+                `;
+            } else if (section === "loisirs") {
+                newChamp.innerHTML = `
+                    <label for="libelle_loisir">Loisir :</label>
+                    <input type="text" class="form-control" name="libelle_loisir[]" required>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn btn-danger">Supprimer</button>
+                `;
+            } else if (section === "projets") {
+                newChamp.innerHTML = `
+                    <label for="titre_projet">Titre :</label>
+                    <input type="text" class="form-control" name="titre_projet[]" required>
+                    <label for="description_projet">Description :</label>
+                    <textarea class="form-control" name="description_projet[]" required></textarea>
+                    <button type="button" onclick="supprimerChamp(this)" class="btn btn-danger">Supprimer</button>
+                `;
+            }
+
+            container.appendChild(newChamp);
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Formulaire de l'Étudiant : {{ etudiant.prenom }} {{ etudiant.nom }}</h2>
+            
+            <h3>Formations</h3>
+            <div id="formations-container"></div>
+            <button type="button" onclick="ajouterFormation()" class="btn btn-success">Ajouter une Formation</button>
+
+            <h3>Expériences</h3>
+            <div id="experiences-container"></div>
+            <button type="button" onclick="ajouterChamp('experiences')" class="btn btn-success">Ajouter une Expérience</button>
+
+            <h3>Compétences</h3>
+            <div id="competences-container"></div>
+            <button type="button" onclick="ajouterChamp('competences')" class="btn btn-success">Ajouter une Compétence</button>
+
+            <h3>Langues</h3>
+            <div id="langues-container"></div>
+            <button type="button" onclick="ajouterChamp('langues')" class="btn btn-success">Ajouter une Langue</button>
+
+            <h3>Loisirs</h3>
+            <div id="loisirs-container"></div>
+            <button type="button" onclick="ajouterChamp('loisirs')" class="btn btn-success">Ajouter un Loisir</button>
+
+            <h3>Projets</h3>
+            <div id="projets-container"></div>
+            <button type="button" onclick="ajouterChamp('projets')" class="btn btn-success">Ajouter un Projet</button>
+
+            <button type="submit" class="btn btn-primary mt-4">Soumettre</button>
+        </form>
+    </div>
+</body>
+</html>

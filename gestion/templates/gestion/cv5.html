@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Classique - {{ cv.etudiant.nom }} {{ cv.etudiant.prenom }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap');
+
+        :root {
+            --primary-color: #1a5f7a;
+            --secondary-color: #457b9d;
+            --accent-color: #e63946;
+            --text-color: #333;
+            --background-color: #f1faee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 30px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .header-text {
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-family: 'Lora', serif;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            font-weight: 300;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 40px;
+        }
+
+        .left-column {
+            flex-basis: 30%;
+        }
+
+        .right-column {
+            flex-basis: 70%;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.5em;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .info-list li {
+            margin-bottom: 10px;
+        }
+
+        .info-list li strong {
+            color: var(--secondary-color);
+            margin-right: 5px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skills-list li {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .timeline li {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+        }
+
+        .timeline h3 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .timeline .date {
+            font-style: italic;
+            color: var(--accent-color);
+            font-size: 0.9em;
+        }
+
+        .projects li {
+            margin-bottom: 15px;
+        }
+
+        .projects h3 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .download-btn, .edit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover, .edit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .left-column, .right-column {
+                flex-basis: 100%;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .photo {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ cv.etudiant.photo.url }}" alt="Photo de profil" class="photo">
+            <div class="header-text">
+                <h1>{{ cv.etudiant.nom }} {{ cv.etudiant.prenom }}</h1>
+                <p class="title">{{ cv.titre }}</p>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="left-column">
+                <section class="section">
+                    <h2>Informations</h2>
+                    <ul class="info-list">
+                        <li><strong>Email :</strong> {{ etudiant.email }}</li>
+                        <li><strong>Contact :</strong> {{ etudiant.contact }}</li>
+                        <li><strong>Nationalité :</strong> {{ etudiant.nationalite }}</li>
+                        <li><strong>Statut :</strong> {{ etudiant.situation_matrimoniale }}</li>
+                        <li><strong>Mobile :</strong> {{ etudiant.mobile }}</li>
+                    </ul>
+                </section>
+
+              
+
+                <section class="section">
+                    <h2>Langues</h2>
+                    <ul class="skills-list">
+                        {% for langue in langues %}
+                            <li>{{ langue.libelle }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Centres d'intérêt</h2>
+                    <ul class="skills-list">
+                        {% for loisir in loisirs %}
+                            <li>{{ loisir.libelle }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+
+            <div class="right-column">
+                <section class="section">
+                    <h2>Formation</h2>
+                    <ul class="timeline">
+                        {% for formation in formations %}
+                            <li>
+                                <h3>{{ formation.diplomes }}</h3>
+                                <p>{{ formation.etablissement }}</p>
+                                <p class="date">{{ formation.annee }}, {{ formation.localite }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Compétences</h2>
+                    <ul class="skills-list">
+                        {% for competence in competences %}
+                            <li>{{ competence.titre }} - {{ competence.outils }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Expériences professionnelles</h2>
+                    <ul class="timeline">
+                        {% for experience in experiences %}
+                            <li>
+                                <h3>{{ experience.titre }}</h3>
+                                <p>{{ experience.entreprise }}</p>
+                                <p class="date">{{ experience.date_debut }} - {{ experience.date_fin }}</p>
+                                <p>{{ experience.taches }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+
+                <section class="section">
+                    <h2>Projets</h2>
+                    <ul class="projects">
+                        {% for projet in projets %}
+                            <li>
+                                <h3>{{ projet.titre }}</h3>
+                                <p>{{ projet.description }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const content = document.querySelector('.container');
+            doc.html(content, {
+                callback: function (doc) {
+                    doc.save('cv-classique.pdf');
+                },
+                x: 10,
+                y: 10,
+                width: 180,
+                windowWidth: 1000
+            });
+        }
+    </script>
+</body>
+</html>
+

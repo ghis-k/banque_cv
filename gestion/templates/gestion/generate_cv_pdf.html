@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envoyer CV en PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+</head>
+<body>
+    <!-- Contenu du CV à transformer en PDF -->
+    <div id="cvContent">
+        <!-- Contenu HTML du CV -->
+        <h1>{{ cv.nom }}</h1>
+        <p>{{ cv.experience }}</p>
+        <!-- Autres détails du CV -->
+    </div>
+
+    <button id="generatePdfBtn">Générer et envoyer en PDF</button>
+
+    <script>
+        document.getElementById('generatePdfBtn').addEventListener('click', function() {
+            var element = document.getElementById('cvContent');
+            html2pdf(element, {
+                margin: 1,
+                filename: 'cv.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 4 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            }).then(function(pdf) {
+                // Envoyer le PDF via un formulaire AJAX ou ajouter un fichier à l'email
+                var email = prompt('Entrez l\'email du destinataire:');
+                
+                if (email) {
+                    var formData = new FormData();
+                    formData.append('email', email);
+                    formData.append('pdf', pdf.output('blob'), 'cv.pdf');
+
+                    // Envoi du formulaire via AJAX (par exemple)
+                    fetch('/send_cv_email/', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.text())
+                    .then(data => alert('Email envoyé !'))
+                    .catch(error => alert('Erreur lors de l\'envoi: ' + error));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
